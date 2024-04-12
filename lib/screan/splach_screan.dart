@@ -1,4 +1,5 @@
 import "package:face_regonation/screan/home_screan.dart";
+import "package:face_regonation/screan/home_view.dart";
 import "package:flutter/material.dart";
 import "package:flutter_spinkit/flutter_spinkit.dart";
 
@@ -20,7 +21,7 @@ class _SplachScrenState extends State<SplachScren> {
     Future.delayed(Duration(seconds: 2)).then((value) {
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext) {
-        return HomeScrean();
+        return HomeView();
       }));
     });
 

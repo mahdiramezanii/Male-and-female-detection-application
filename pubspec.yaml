@@ -21,6 +21,7 @@ dependencies:
   flutter_spinkit: ^5.2.0
   image_picker: ^1.0.7
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
