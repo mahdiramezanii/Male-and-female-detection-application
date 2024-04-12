@@ -1,3 +1,4 @@
+import "package:dio/dio.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 import "package:flutter/widgets.dart";
@@ -12,6 +13,12 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   int selectedIndex = 0;
   final ImagePicker _picker = ImagePicker();
+
+  double with_animited_select = 170.0;
+  double hight_animited_select = 60;
+
+  double with_animited = 0;
+  double hight_animited = 0;
 
   XFile? _image;
 
@@ -36,74 +43,94 @@ class _HomeViewState extends State<HomeView> {
                       SizedBox(
                         height: 50,
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AnimatedContainer(
+                            duration: Duration(seconds: 5),
+                            width: with_animited_select,
+                            height: hight_animited_select,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  minimumSize: Size(300, 50),
+                                  backgroundColor:
+                                      Color.fromRGBO(183, 0, 165, 1),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  )),
+                              onPressed: () async {
+                                final XFile? pickedFile = await _picker
+                                    .pickImage(source: ImageSource.gallery);
 
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            minimumSize: Size(300, 50),
-                            backgroundColor: Color.fromRGBO(183, 0, 165, 1),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            )),
-                        onPressed: () async {
-                          final XFile? pickedFile = await _picker.pickImage(
-                              source: ImageSource.gallery);
+                                setState(
+                                  () {
+                                    with_animited_select = 0;
+                                    hight_animited_select = 0;
+                                    with_animited = 250;
+                                    hight_animited = 60;
+                                    _image = pickedFile;
+                                    print((_image!.name));
+                                  },
+                                );
+                              },
+                              child: Text(
+                                "انتخاب عکس",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w800),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          AnimatedContainer(
+                            duration: Duration(seconds: 5),
+                            width: with_animited,
+                            height: hight_animited,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  minimumSize: Size(300, 50),
+                                  backgroundColor: Colors.grey,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  )),
+                              onPressed: () async {
+                                var url =
+                                    'http://softwareengineering.online/gender_verification/';
 
-                          setState(
-                            () {
-                              _image = pickedFile;
-                              print(File(_image!.path));
-                            },
-                          );
-                        },
-                        child: Text(
-                          "انتخاب عکس",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w800),
-                        ),
+                                var file = (_image!.path);
+
+                                FormData formData = FormData.fromMap(
+                                  {
+                                    "image": await MultipartFile.fromFile(file,
+                                        filename: _image!.name),
+                                  },
+                                );
+
+                                // Send the image to the server
+                                try {
+                                  var response =
+                                      await Dio().post(url, data: formData);
+                                  print('Response: $response');
+                                } catch (e) {
+                                  print('Error: $e');
+                                }
+                              },
+                              child: Text(
+                                "تشخیص جنسیت",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: [
-                      //     Container(
-                      //       height: 45,
-                      //       width: 160,
-                      //       decoration: BoxDecoration(
-                      //         color: Color.fromRGBO(49, 49, 51, 1),
-                      //         borderRadius: BorderRadius.circular(8),
-                      //       ),
-                      //       child: Center(
-                      //         child: Text(
-                      //           "Continue game",
-                      //           style: TextStyle(
-                      //               fontWeight: FontWeight.w800,
-                      //               fontSize: 16,
-                      //               color: Color.fromRGBO(204, 204, 204, 1)),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //     SizedBox(
-                      //       width: 5,
-                      //     ),
-                      //     Container(
-                      //       height: 45,
-                      //       width: 160,
-                      //       decoration: BoxDecoration(
-                      //           color: Color.fromRGBO(183, 0, 165, 1),
-                      //           borderRadius: BorderRadius.circular(8)),
-                      //       child: Center(
-                      //         child: Text(
-                      //           "Start Game",
-                      //           style: TextStyle(
-                      //               color: Colors.white,
-                      //               fontSize: 16,
-                      //               fontWeight: FontWeight.w800),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
                       SizedBox(
                         height: 30,
                       ),
@@ -151,13 +178,19 @@ class _HomeViewState extends State<HomeView> {
                               ),
                             },
                             if (_image != null) ...{
-                            SizedBox(
-                              width: 100,
-                              height: 100,
-                              child: Image.file(
-                                File(_image!.path),
-                              ),
-                            )
+                              SizedBox(
+                                width: double.infinity - 50,
+                                height: 500,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: FittedBox(
+                                    fit: BoxFit.cover,
+                                    child: Image.file(
+                                      File(_image!.path),
+                                    ),
+                                  ),
+                                ),
+                              )
                             }
                           ],
                         ),

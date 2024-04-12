@@ -20,6 +20,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   flutter_spinkit: ^5.2.0
   image_picker: ^1.0.7
+  dio: ^5.4.2+1
 
 
 dev_dependencies:
