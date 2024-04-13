@@ -1,23 +1,15 @@
-import "package:face_regonation/screan/home_screan.dart";
 import "package:face_regonation/screan/home_view.dart";
 import "package:flutter/material.dart";
 import "package:flutter_spinkit/flutter_spinkit.dart";
 
 class SplachScren extends StatefulWidget {
-
-  
- 
-
   @override
   State<SplachScren> createState() => _SplachScrenState();
 }
 
 class _SplachScrenState extends State<SplachScren> {
-
-    @override
+  @override
   void initState() {
-
-
     Future.delayed(Duration(seconds: 2)).then((value) {
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext) {
@@ -25,10 +17,9 @@ class _SplachScrenState extends State<SplachScren> {
       }));
     });
 
-    
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +43,6 @@ class _SplachScrenState extends State<SplachScren> {
           Text(
             maxLines: 1,
             "تشخیص چهره",
-            
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           SizedBox(
