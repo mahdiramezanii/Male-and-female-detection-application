@@ -1,7 +1,6 @@
 import "package:dio/dio.dart";
 import "package:face_regonation/data/data_source_remote/gender_verification_datasource.dart";
 import "package:face_regonation/data/models/gender_model.dart";
-import "package:face_regonation/data/repository/gender_repository,.dart";
 import "package:face_regonation/di/service_locator.dart";
 import "package:face_regonation/util/network_image.dart";
 import "package:flutter/cupertino.dart";
@@ -19,29 +18,27 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   int selectedIndex = 0;
   final ImagePicker _picker = ImagePicker();
-
   double with_animited_select = 170.0;
   double hight_animited_select = 60;
-
   double with_animited = 0;
   double hight_animited = 0;
   List<FaceRegonationModel> face_list = [];
-
   XFile? _image;
-
   var box = Hive.box<FaceRegonationModel>("face");
 
-  @override
-  void initState() {
-    super.initState();
-
-    setState(() {
-      face_list = box.values.toList();
-    });
-  }
+  // @override
+  // void initState() {
+  //   setState(() {
+  //     face_list = box.values.toList();
+  //   });
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      face_list = box.values.toList();
+    });
     return Scaffold(
       backgroundColor: Colors.black,
       body: NestedScrollView(
@@ -135,19 +132,15 @@ class _HomeViewState extends State<HomeView> {
                               //   print('Error: $e');
                               // }
 
-                              IGenderVerificationRepository test =
+                              IGenderVerificationDataSource test =
                                   locator.get();
                               var response =
                                   await test.getFaceRegonationData(formData);
 
-                              response.fold(
-                                (l) {
-                                  print(l);
-                                },
-                                (r) {
-                                  box.add(r);
-                                },
-                              );
+                              box.add(response);
+
+                              print(response);
+                              setState(() {});
                             },
                             child: Text(
                               "تشخیص جنسیت",
@@ -247,9 +240,10 @@ class _HomeViewState extends State<HomeView> {
                       Text(
                         "Recently Users",
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 26,
-                            fontWeight: FontWeight.w800),
+                          color: Colors.white,
+                          fontSize: 26,
+                          fontWeight: FontWeight.w800,
+                        ),
                       )
                     ],
                   ),
@@ -261,12 +255,15 @@ class _HomeViewState extends State<HomeView> {
         body: CustomScrollView(
           slivers: [
             SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: getRowItem(index, face_list),
-                );
-              }, childCount: box.length),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: getRowItem(index, face_list),
+                  );
+                },
+                childCount: box.length,
+              ),
             )
           ],
         ),
@@ -319,7 +316,7 @@ class _HomeViewState extends State<HomeView> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: CashNetworkImage(
-                  "http://softwareengineering.online${face_list[index].result_image}",
+                  "https://softwareengineering.online${face_list[index].result_image}",
                 ),
               ),
               SizedBox(
