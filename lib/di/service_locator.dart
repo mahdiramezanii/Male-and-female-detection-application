@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:face_regonation/data/data_source_remote/gender_verification_datasource.dart';
-// import 'package:face_regonation/data/repository/gender_repository,.dart';
+import 'package:face_regonation/data/repository/gender_verification_repository.dart';
 import 'package:get_it/get_it.dart';
 
 var locator = GetIt.I;
@@ -17,10 +17,10 @@ Future<void> initLocator() async {
     () => GenderVerificationRemoteDataSource(),
   );
 
-  //Repository
-  // locator.registerFactory<IGenderVerificationRepository>(
-  //   () {
-  //     return GenderVerificationRemoteRepository();
-  //   },
-  // );
+  // Repository
+  locator.registerFactory<IGenderVerificationReposotory>(
+    () {
+      return GenderVerificationRemoteRepository();
+    },
+  );
 }
