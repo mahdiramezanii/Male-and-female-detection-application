@@ -1,6 +1,7 @@
 import "package:dio/dio.dart";
 import "package:face_regonation/data/data_source_remote/gender_verification_datasource.dart";
 import "package:face_regonation/data/models/gender_model.dart";
+import "package:face_regonation/data/repository/gender_verification_repository.dart";
 import "package:face_regonation/di/service_locator.dart";
 import "package:face_regonation/util/network_image.dart";
 import "package:flutter/cupertino.dart";
@@ -89,9 +90,10 @@ class _HomeViewState extends State<HomeView> {
                             child: Text(
                               "انتخاب عکس",
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w800),
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w800,
+                              ),
                             ),
                           ),
                         ),
@@ -132,14 +134,21 @@ class _HomeViewState extends State<HomeView> {
                               //   print('Error: $e');
                               // }
 
-                              IGenderVerificationDataSource test =
+                              IGenderVerificationReposotory test =
                                   locator.get();
                               var response =
                                   await test.getFaceRegonationData(formData);
 
-                              box.add(response);
+                              response.fold(
+                                (l) {
+                                  print(l);
+                                },
+                                (r) {
+                                  print(r);
+                                  box.add(r);
+                                },
+                              );
 
-                              print(response);
                               setState(() {});
                             },
                             child: Text(
