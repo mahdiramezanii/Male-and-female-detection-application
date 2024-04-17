@@ -15,13 +15,16 @@ class CashNetworkImage extends StatelessWidget {
         child: CachedNetworkImage(
           placeholder: (context, url) {
             return Container(
+              height: 200,
+              width: 200,
               color: Colors.grey,
               child: Center(
                 child: SizedBox(
                   height: 20,
                   width: 20,
                   child: CircularProgressIndicator(
-                    color: Colors.red,
+                    color: Colors.white,
+                    
                   ),
                 ),
               ),
