@@ -6,6 +6,8 @@ import "package:face_regonation/data/data_source_remote/gender_verification_data
 import "package:face_regonation/data/models/gender_model.dart";
 import "package:face_regonation/data/repository/gender_verification_repository.dart";
 import "package:face_regonation/di/service_locator.dart";
+import "package:face_regonation/screan/detail_screan.dart";
+import "package:face_regonation/screan/widgets/widgets.dart";
 import "package:face_regonation/util/network_image.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
@@ -98,8 +100,8 @@ class _HomeViewState extends State<HomeView> {
                                 "انتخاب عکس",
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w800,
+                                  fontFamily: "SB",
+                                  fontSize: 18,
                                 ),
                               ),
                             ),
@@ -148,10 +150,9 @@ class _HomeViewState extends State<HomeView> {
                                 "تشخیص جنسیت",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w800,
-                                ),
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontFamily: "SB"),
                               ),
                             ),
                           ),
@@ -237,48 +238,9 @@ class _HomeViewState extends State<HomeView> {
                         ),
                       },
                       if (state is Resultstate) ...{
-                        Card(
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            height: 400,
-                            width: 380,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  height: 200,
-                                  child: CashNetworkImage(
-                                    "https://softwareengineering.online${box.values.last.result_image}",
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 110,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: box.values.last.faces.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SizedBox(
-                                          height: 50,
-                                          child: Container(
-                                            width: 60,
-                                            child: CashNetworkImage(
-                                                "https://softwareengineering.online${box.values.last.faces[index]}"),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
+                        Result(
+                            result_image: box.values.last.result_image,
+                            faces: box.values.last.faces)
                       },
                       SizedBox(
                         height: 5,
@@ -315,61 +277,33 @@ class _HomeViewState extends State<HomeView> {
               ),
             ];
           },
-          body: CustomScrollView(
-            slivers: [
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final reversedIndex = box.values.length - index - 1;
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: ValueListenableBuilder(
-                        valueListenable: box.listenable(),
-                        builder: (context, value, child) {
-                          return getRowItem(
-                            reversedIndex,
+          body: ValueListenableBuilder(
+            valueListenable: box.listenable(),
+            builder: (context, value, child) {
+              return CustomScrollView(
+                slivers: [
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: getRowItem(
+                            box.values.length != 0
+                                ? box.values.length - index - 1
+                                : 0,
                             box.values.toList(),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                  childCount: box.values.length,
-                ),
-              )
-            ],
+                          ),
+                        );
+                      },
+                      childCount: box.values.length,
+                    ),
+                  )
+                ],
+              );
+            },
           ),
         );
       },
-    );
-  }
-
-  Widget getHeader() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Image(
-            image: AssetImage("assets/images/menu.png"),
-            color: Colors.white,
-          ),
-          Text(
-            "تشخیص چهره",
-            style: TextStyle(
-              color: Color.fromRGBO(
-                183,
-                0,
-                165,
-                1,
-              ),
-              fontSize: 30,
-              fontFamily: "mh",
-            ),
-          ),
-          Image(image: AssetImage("assets/images/bell.png"))
-        ],
-      ),
     );
   }
 
@@ -377,7 +311,9 @@ class _HomeViewState extends State<HomeView> {
     return Dismissible(
       key: UniqueKey(),
       onDismissed: (direction) {
-        box.deleteAt(index);
+        FaceRegonationModel test = face_list[index];
+
+        test.delete();
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5),
@@ -443,7 +379,7 @@ class _HomeViewState extends State<HomeView> {
                       ],
                     ),
                     Text(
-                      "Number:${index}",
+                      "Number:${index + 1}",
                       style: TextStyle(
                           color: Color.fromARGB(255, 236, 218, 236),
                           fontWeight: FontWeight.w600),
@@ -452,10 +388,24 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 Spacer(),
                 selectedIndex == index
-                    ? Icon(
-                        Icons.open_in_full_outlined,
-                        color: Colors.green,
-                        size: 30,
+                    ? InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return DetailScrean(
+                                  result_image: face_list[index].result_image,
+                                  faces: face_list[index].faces,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: Icon(
+                          Icons.open_in_full_outlined,
+                          color: Colors.green,
+                          size: 30,
+                        ),
                       )
                     : Spacer(),
                 SizedBox(
