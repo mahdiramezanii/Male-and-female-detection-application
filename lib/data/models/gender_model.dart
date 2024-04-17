@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 part 'gender_model.g.dart';
 
 @HiveType(typeId: 0)
-class FaceRegonationModel {
+class FaceRegonationModel extends HiveObject {
   @HiveField(0)
   String result_image;
   @HiveField(1)
