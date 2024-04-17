@@ -9,3 +9,5 @@ class FaceRecongnitionEvent extends HomeEvent {
     required this.formData,
   });
 }
+
+class ReloadEvent extends HomeEvent{}
