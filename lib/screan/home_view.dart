@@ -30,14 +30,6 @@ class _HomeViewState extends State<HomeView> {
   XFile? _image;
   var box = Hive.box<FaceRegonationModel>("face");
 
-  // @override
-  // void initState() {
-  //   setState(() {
-  //     face_list = box.values.toList();
-  //   });
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -305,12 +297,14 @@ class _HomeViewState extends State<HomeView> {
                   backgroundColor: Colors.black,
                   flexibleSpace: FlexibleSpaceBar(
                     background: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Recently Users",
+                          "تاریخچه",
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 26,
+                            fontSize: 30,
+                            fontFamily: "mh",
                             fontWeight: FontWeight.w800,
                           ),
                         )
@@ -332,7 +326,10 @@ class _HomeViewState extends State<HomeView> {
                       child: ValueListenableBuilder(
                         valueListenable: box.listenable(),
                         builder: (context, value, child) {
-                          return getRowItem(reversedIndex, box.values.toList());
+                          return getRowItem(
+                            reversedIndex,
+                            box.values.toList(),
+                          );
                         },
                       ),
                     );
@@ -348,129 +345,127 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget getHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Image(
-          image: AssetImage("assets/images/menu.png"),
-          color: Colors.white,
-        ),
-        Image(image: AssetImage("assets/images/GAME.png")),
-        Image(image: AssetImage("assets/images/bell.png"))
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Image(
+            image: AssetImage("assets/images/menu.png"),
+            color: Colors.white,
+          ),
+          Text(
+            "تشخیص چهره",
+            style: TextStyle(
+              color: Color.fromRGBO(
+                183,
+                0,
+                165,
+                1,
+              ),
+              fontSize: 30,
+              fontFamily: "mh",
+            ),
+          ),
+          Image(image: AssetImage("assets/images/bell.png"))
+        ],
+      ),
     );
   }
 
   Widget getRowItem(int index, List<FaceRegonationModel> face_list) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedIndex = index;
-          });
-        },
-        child: Container(
-          height: 75,
-          width: 371,
-          decoration: BoxDecoration(
-              color: selectedIndex == index
-                  ? Color.fromRGBO(98, 108, 110, 0.224)
-                  : Colors.black,
-              borderRadius: BorderRadius.circular(15)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 10,
-              ),
-              Container(
-                height: 53.9,
-                width: 55.22,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
+    return Dismissible(
+      key: UniqueKey(),
+      onDismissed: (direction) {
+        box.deleteAt(index);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5),
+        child: GestureDetector(
+          onTap: () {
+            setState(() {
+              selectedIndex = index;
+            });
+          },
+          child: Container(
+            height: 75,
+            width: 371,
+            decoration: BoxDecoration(
+                color: selectedIndex == index
+                    ? Color.fromRGBO(239, 239, 239, 0.2)
+                    : Colors.black,
+                borderRadius: BorderRadius.circular(15)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 10,
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: CashNetworkImage(
-                      "https://softwareengineering.online${face_list[index].result_image}",
+                Container(
+                  height: 53.9,
+                  width: 55.22,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: CashNetworkImage(
+                        "https://softwareengineering.online${face_list[index].result_image}",
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                width: 7,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Mahdi Ramezani",
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                  ),
-                  Row(
-                    children: [
-                      Image(image: AssetImage("assets/images/dot.png")),
-                      SizedBox(
-                        width: 3,
-                      ),
-                      Text(
-                        "online",
-                        style: TextStyle(color: Colors.green),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    "Level 150",
-                    style: TextStyle(color: Colors.pink),
-                  ),
-                ],
-              ),
-              Spacer(),
-              selectedIndex == index
-                  ? Image(image: AssetImage("assets/images/plus.png"))
-                  : Spacer(),
-              SizedBox(
-                width: 10,
-              ),
-            ],
+                SizedBox(
+                  width: 7,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "فاطمه تجویدی",
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 15, fontFamily: "SM"),
+                    ),
+                    Row(
+                      children: [
+                        Image(image: AssetImage("assets/images/dot.png")),
+                        SizedBox(
+                          width: 3,
+                        ),
+                        Text(
+                          "Face",
+                          style: TextStyle(color: Colors.green),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      "Number:${index}",
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 236, 218, 236),
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+                Spacer(),
+                selectedIndex == index
+                    ? Icon(
+                        Icons.open_in_full_outlined,
+                        color: Colors.green,
+                        size: 30,
+                      )
+                    : Spacer(),
+                SizedBox(
+                  width: 10,
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
-  }
-}
-
-class HeaderRecent extends SliverPersistentHeaderDelegate {
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Row(
-      children: [
-        Text(
-          "Recently Users",
-          style: TextStyle(
-              color: Colors.white, fontSize: 26, fontWeight: FontWeight.w800),
-        )
-      ],
-    );
-  }
-
-  @override
-  // TODO: implement maxExtent
-  double get maxExtent => 100;
-
-  @override
-  // TODO: implement minExtent
-  double get minExtent => 100;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    // TODO: implement shouldRebuild
-    return false;
   }
 }

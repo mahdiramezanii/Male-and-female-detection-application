@@ -51,10 +51,30 @@ flutter:
   #   - images/a_dot_ham.jpeg
 
 
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: SM
+      fonts:
+        - asset: assets/fonts/ShabnamMedium.ttf
+          weight: 500
+
+    - family: SB
+      fonts:
+        - asset: assets/fonts/ShabnamBold.ttf
+          weight: 700
+
+
+    - family: dana
+      fonts:
+        - asset: assets/fonts/dana.ttf
+          weight: 500
+
+    - family: mh
+      fonts:
+        - asset: assets/fonts/mh.ttf
+          weight: 500
+    # - family: DM
+    #   fonts:
+    #     - asset: assets/fonts/dana.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
