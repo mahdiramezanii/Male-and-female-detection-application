@@ -10,12 +10,18 @@ class SplachScren extends StatefulWidget {
 class _SplachScrenState extends State<SplachScren> {
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 2)).then((value) {
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (BuildContext) {
-        return HomeView();
-      }));
-    });
+    Future.delayed(Duration(seconds: 2)).then(
+      (value) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext) {
+              return HomeView();
+            },
+          ),
+        );
+      },
+    );
 
     super.initState();
   }
