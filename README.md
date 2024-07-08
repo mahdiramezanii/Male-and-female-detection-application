@@ -1,79 +1,79 @@
-# تشخیص چهره و جنسیت
+# Face and Gender Detection
 
-این پروژه یک اپلیکیشن موبایل با استفاده از فلاتر است که قادر به تشخیص چهره و جنسیت افراد از طریق تصاویر ورودی می‌باشد. این اپلیکیشن از یک API که به طور سفارشی نوشته شده است، استفاده می‌کند.
+This project is a mobile application built with Flutter that can detect faces and the gender of individuals in input images. The application uses a custom API for image processing.
 
-## ویژگی‌ها
+## Features
 
-- تشخیص چهره در تصاویر ورودی
-- تعیین جنسیت افراد تشخیص داده شده
-- استفاده از API سفارشی برای پردازش تصاویر
+- Detects faces in input images
+- Determines the gender of detected individuals
+- Uses a custom API for image processing
 
-## تصاویر خروجی
+## Output Images
 
-در اینجا چند تصویر از خروجی برنامه آورده شده است:
+Here are some images showing the application's output:
 
-### تصویر ۱
-![تصویر ۱](https://raw.githubusercontent.com/mahdiramezanii/Male-and-female-detection-application/main/assets/images/Screenshot%202024-07-08%20190055.png?token=GHSAT0AAAAAACNEZ3Q64OGY4PKSYHBDD67SZUMBBRA)
+### Image 1
+![Image 1](https://raw.githubusercontent.com/mahdiramezanii/Male-and-female-detection-application/main/assets/images/Screenshot%202024-07-08%20190055.png?token=GHSAT0AAAAAACNEZ3Q64OGY4PKSYHBDD67SZUMBBRA)
 
-### تصویر ۲
-![تصویر ۲](https://raw.githubusercontent.com/mahdiramezanii/Male-and-female-detection-application/main/assets/images/Screenshot%202024-07-08%20190109.png?token=GHSAT0AAAAAACNEZ3Q7G3J4PQJOTIXLXH3YZUMBBRQ)
+### Image 2
+![Image 2](https://raw.githubusercontent.com/mahdiramezanii/Male-and-female-detection-application/main/assets/images/Screenshot%202024-07-08%20190109.png?token=GHSAT0AAAAAACNEZ3Q7G3J4PQJOTIXLXH3YZUMBBRQ)
 
-## نحوه نصب و راه‌اندازی
+## Installation and Setup
 
-برای راه‌اندازی این پروژه، مراحل زیر را دنبال کنید:
+To set up this project, follow these steps:
 
-1. ابتدا ریپازیتوری را کلون کنید:
+1. Clone the repository:
 
     ```sh
     git clone https://github.com/mahdiramezanii/Male-and-female-detection-application.git
     ```
 
-2. به دایرکتوری پروژه بروید:
+2. Navigate to the project directory:
 
     ```sh
     cd Male-and-female-detection-application
     ```
 
-3. بسته‌های مورد نیاز را نصب کنید:
+3. Install the required packages:
 
     ```sh
     flutter pub get
     ```
 
-4. اپلیکیشن را اجرا کنید:
+4. Run the application:
 
     ```sh
     flutter run
     ```
 
-## استفاده از اپلیکیشن
+## Usage
 
-برای استفاده از این اپلیکیشن، تنها کافیست یک تصویر را به عنوان ورودی انتخاب کنید و اپلیکیشن به طور خودکار چهره‌ها و جنسیت افراد را تشخیص می‌دهد.
+To use this application, simply select an image as input, and the application will automatically detect faces and determine the gender of the individuals.
 
-## مشارکت
+## Contributing
 
-اگر تمایل به مشارکت در این پروژه دارید، می‌توانید به راحتی یک شاخه جدید ایجاد کرده و تغییرات خود را اعمال کنید. سپس یک Pull Request ارسال کنید.
+If you wish to contribute to this project, you can easily create a new branch, make your changes, and submit a Pull Request.
 
-1. یک شاخه جدید ایجاد کنید:
+1. Create a new branch:
 
     ```sh
     git checkout -b feature-branch
     ```
 
-2. تغییرات خود را اعمال کنید و کامیت کنید:
+2. Make your changes and commit them:
 
     ```sh
     git commit -m 'Add some feature'
     ```
 
-3. تغییرات را به شاخه اصلی ارسال کنید:
+3. Push your changes to the main branch:
 
     ```sh
     git push origin feature-branch
     ```
 
-4. یک Pull Request ایجاد کنید.
+4. Create a Pull Request.
 
-## لایسنس
+## License
 
-این پروژه تحت لایسنس MIT منتشر شده است. برای اطلاعات بیشتر، فایل [LICENSE](./LICENSE) را مشاهده کنید.
+This project is licensed under the MIT License. For more information, see the [LICENSE](./LICENSE) file.
